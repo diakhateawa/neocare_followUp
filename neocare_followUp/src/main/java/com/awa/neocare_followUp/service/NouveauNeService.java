@@ -1,4 +1,4 @@
-package com.awa.neocare_followUp.security.service;
+package com.awa.neocare_followUp.service;
 
 import com.awa.neocare_followUp.dto.NouveauNeRequest;
 import com.awa.neocare_followUp.dto.NouveauNeResponse;
@@ -12,12 +12,17 @@ import java.util.List;
 
 @Service
 public class NouveauNeService {
+
     private final NouveauNeRepository nouveauNeRepository;
     private final MereRepository mereRepository;
+    private final AgeService ageService;
 
-    public NouveauNeService(NouveauNeRepository nouveauNeRepository, MereRepository mereRepository) {
-        this.nouveauNeRepository = nouveauNeRepository;
+    public NouveauNeService(NouveauNeRepository repo,
+                            MereRepository mereRepository,
+                            AgeService ageService) {
+        this.nouveauNeRepository = repo;
         this.mereRepository = mereRepository;
+        this.ageService = ageService;
     }
 
     public NouveauNeResponse create(NouveauNeRequest request) {
@@ -42,6 +47,13 @@ public class NouveauNeService {
 
         NouveauNe saved = nouveauNeRepository.save(bebe);
 
+        // 👉 ici tu peux calculer l'âge corrigé (EXEMPLE)
+        int ageReel = 0; // à remplacer plus tard avec logique date
+        int ageCorrige = ageService.calculAgeCorrige(
+                saved.getAgeGestationnel(),
+                ageReel
+        );
+
         NouveauNeResponse res = new NouveauNeResponse();
         res.setId(saved.getId());
         res.setNom(saved.getNom());
@@ -56,6 +68,9 @@ public class NouveauNeService {
 
         res.setMereId(mere.getId());
         res.setMereNom(mere.getNom());
+
+        // 👉 optionnel si tu ajoutes champ
+        // res.setAgeCorrige(ageCorrige);
 
         return res;
     }

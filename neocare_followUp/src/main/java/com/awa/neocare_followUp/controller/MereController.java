@@ -2,7 +2,7 @@ package com.awa.neocare_followUp.controller;
 
 import com.awa.neocare_followUp.dto.MereRequest;
 import com.awa.neocare_followUp.dto.MereResponse;
-import com.awa.neocare_followUp.security.service.MereService;
+import com.awa.neocare_followUp.service.MereService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 

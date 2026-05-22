@@ -1,4 +1,4 @@
-package com.awa.neocare_followUp.security.service;
+package com.awa.neocare_followUp.service;
 
 import com.awa.neocare_followUp.dto.MereRequest;
 import com.awa.neocare_followUp.dto.MereResponse;
