@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface AlerteRepository extends JpaRepository<Alerte, Long> {
 
-    List<Alerte> findByNouveauNeId(Long nouveauNeId);
-
     List<Alerte> findByTraite(boolean traite);
+    List<Alerte> findByNouveauNeId(Long id);
 }

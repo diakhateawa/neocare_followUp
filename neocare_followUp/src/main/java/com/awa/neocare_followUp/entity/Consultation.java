@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Consultation {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,17 +35,18 @@ public class Consultation {
     private String assistanceRespiratoire;
     private String resultatsBiologiques;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "nouveau_ne_id")
     private NouveauNe nouveauNe;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "medecin_id")
     private Utilisateur medecin;
+
 
     @OneToOne(mappedBy = "consultation", cascade = CascadeType.ALL)
     private Prescription prescription;
 
-    @OneToMany(mappedBy = "consultation")
+    @OneToMany(mappedBy = "consultation", cascade = CascadeType.ALL)
     private List<DocumentMedical> documents;
 }

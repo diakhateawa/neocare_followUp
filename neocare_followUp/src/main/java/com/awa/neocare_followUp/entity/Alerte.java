@@ -26,11 +26,11 @@ public class Alerte {
 
     private boolean traite;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nouveau_ne_id")
     private NouveauNe nouveauNe;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "medecin_id")
     private Utilisateur medecin;
 }
