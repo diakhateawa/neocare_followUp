@@ -18,15 +18,39 @@ public class NouveauNeController {
         this.service = service;
     }
 
+    // CREATE
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN','INFIRMIER')")
     public NouveauNeResponse create(@RequestBody NouveauNeRequest request) {
         return service.create(request);
     }
 
+    // GET ALL
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN','MEDECIN','INFIRMIER')")
-    public List<?> getAll() {
+    public List<NouveauNeResponse> getAll() {
         return service.getAll();
+    }
+
+    // GET BY ID
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','MEDECIN','INFIRMIER')")
+    public NouveauNeResponse getById(@PathVariable Long id) {
+        return service.getById(id);
+    }
+
+    // UPDATE
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','INFIRMIER')")
+    public NouveauNeResponse update(@PathVariable Long id,
+                                    @RequestBody NouveauNeRequest request) {
+        return service.update(id, request);
+    }
+
+    // DELETE
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void delete(@PathVariable Long id) {
+        service.delete(id);
     }
 }

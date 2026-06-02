@@ -23,4 +23,6 @@ public class NouveauNeResponse {
 
     private Long mereId;
     private String mereNom;
+
+    private Integer ageCorrige;
 }

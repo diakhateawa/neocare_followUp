@@ -34,4 +34,16 @@ public class MereController {
     public MereResponse getById(@PathVariable Long id) {
         return mereService.getById(id);
     }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','INFIRMIER')")
+    public MereResponse update(@PathVariable Long id, @RequestBody MereRequest request) {
+        return mereService.update(id, request);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void delete(@PathVariable Long id) {
+        mereService.delete(id);
+    }
 }
