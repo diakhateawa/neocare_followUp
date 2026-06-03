@@ -35,4 +35,25 @@ public class RendezVousController {
     public List<RendezVousResponse> getByBebe(@PathVariable Long id) {
         return service.getByBebe(id);
     }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SECRETAIRE','ADMIN','MEDECIN','INFIRMIER')")
+    public RendezVousResponse getById(@PathVariable Long id) {
+        return service.getById(id);
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SECRETAIRE','ADMIN')")
+    public RendezVousResponse update(
+            @PathVariable Long id,
+            @RequestBody RendezVousRequest request) {
+
+        return service.update(id, request);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SECRETAIRE','ADMIN')")
+    public void delete(@PathVariable Long id) {
+        service.delete(id);
+    }
 }

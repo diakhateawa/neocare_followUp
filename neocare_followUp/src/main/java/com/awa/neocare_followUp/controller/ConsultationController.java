@@ -20,27 +20,18 @@ public class ConsultationController {
         this.service = service;
     }
 
-    // =========================
-    // CREATE CONSULTATION
-    // =========================
     @PostMapping
     @PreAuthorize("hasAnyRole('MEDECIN','ADMIN')")
     public ConsultationResponse create(@RequestBody ConsultationRequest request) {
         return service.create(request);
     }
 
-    // =========================
-    // GET ALL CONSULTATIONS
-    // =========================
     @GetMapping
     @PreAuthorize("hasAnyRole('MEDECIN','ADMIN','INFIRMIER')")
     public List<ConsultationResponse> getAll() {
         return service.getAll();
     }
 
-    // =========================
-    // GET CONSULTATIONS BY BEBE
-    // =========================
     @GetMapping("/bebe/{id}")
     @PreAuthorize("hasAnyRole('MEDECIN','ADMIN','INFIRMIER')")
     public List<ConsultationResponse> getByBebe(@PathVariable Long id) {

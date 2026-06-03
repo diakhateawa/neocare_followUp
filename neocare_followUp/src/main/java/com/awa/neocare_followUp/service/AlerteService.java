@@ -1,10 +1,11 @@
 package com.awa.neocare_followUp.service;
 
-import com.awa.neocare_followUp.entity.Alerte;
-import com.awa.neocare_followUp.entity.NouveauNe;
-import com.awa.neocare_followUp.entity.TypeAlerte;
-import com.awa.neocare_followUp.entity.Utilisateur;
+import com.awa.neocare_followUp.dto.AlerteRequest;
+import com.awa.neocare_followUp.dto.AlerteResponse;
+import com.awa.neocare_followUp.entity.*;
 import com.awa.neocare_followUp.repository.AlerteRepository;
+import com.awa.neocare_followUp.repository.NouveauNeRepository;
+import com.awa.neocare_followUp.repository.UtilisateurRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,26 +20,11 @@ public class AlerteService {
         this.alerteRepository = alerteRepository;
     }
 
-    public void creerAlerte(String titre,
-                            String message,
-                            TypeAlerte type,
-                            NouveauNe bebe,
-                            Utilisateur medecin) {
-
-        Alerte alerte = Alerte.builder()
-                .titre(titre)
-                .message(message)
-                .typeAlerte(type)
-                .dateCreation(LocalDateTime.now())
-                .traite(false)
-                .nouveauNe(bebe)
-                .medecin(medecin)
-                .build();
-
-        alerteRepository.save(alerte);
+    public List<Alerte> getAll() {
+        return alerteRepository.findAllWithFetch();
     }
 
-    public List<Alerte> getAlertesByBebe(Long bebeId) {
-        return alerteRepository.findByNouveauNeId(bebeId);
+    public List<Alerte> getByBebe(Long id) {
+        return alerteRepository.findByNouveauNeIdWithFetch(id);
     }
 }

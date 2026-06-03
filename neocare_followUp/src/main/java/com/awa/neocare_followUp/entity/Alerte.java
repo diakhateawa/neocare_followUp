@@ -1,5 +1,6 @@
 package com.awa.neocare_followUp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,17 +21,20 @@ public class Alerte {
     private String message;
 
     @Enumerated(EnumType.STRING)
+    @Column(length = 50)
     private TypeAlerte typeAlerte;
 
     private LocalDateTime dateCreation;
 
     private boolean traite;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "nouveau_ne_id")
     private NouveauNe nouveauNe;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "medecin_id")
     private Utilisateur medecin;
 }

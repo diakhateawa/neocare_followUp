@@ -82,4 +82,50 @@ public class RendezVousService {
 
         return res;
     }
+
+    public RendezVousResponse getById(Long id) {
+
+        RendezVous rdv = rendezVousRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Rendez-vous introuvable"));
+
+        return mapToResponse(rdv);
+    }
+
+    public RendezVousResponse update(Long id, RendezVousRequest request) {
+
+        RendezVous rdv = rendezVousRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Rendez-vous introuvable"));
+
+        NouveauNe bebe = nouveauNeRepository.findById(request.getNouveauNeId())
+                .orElseThrow(() -> new RuntimeException("Bébé introuvable"));
+
+        Utilisateur secretaire = utilisateurRepository.findById(request.getSecretaireId())
+                .orElseThrow(() -> new RuntimeException("Secrétaire introuvable"));
+
+        if (!Role.SECRETAIRE.equals(secretaire.getRole())) {
+            throw new RuntimeException("Cet utilisateur n'est pas secrétaire");
+        }
+
+        rdv.setDateRdv(request.getDateRdv());
+        rdv.setMotif(request.getMotif());
+
+        if (request.getStatut() != null) {
+            rdv.setStatut(request.getStatut());
+        }
+
+        rdv.setNouveauNe(bebe);
+        rdv.setSecretaire(secretaire);
+
+        RendezVous updated = rendezVousRepository.save(rdv);
+
+        return mapToResponse(updated);
+    }
+
+    public void delete(Long id) {
+
+        RendezVous rdv = rendezVousRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Rendez-vous introuvable"));
+
+        rendezVousRepository.delete(rdv);
+    }
 }

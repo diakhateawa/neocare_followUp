@@ -1,5 +1,6 @@
 package com.awa.neocare_followUp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -41,15 +42,19 @@ public class NouveauNe {
     @JoinColumn(name = "mere_id")
     private Mere mere;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "nouveauNe")
     private List<Consultation> consultations;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "nouveauNe")
     private List<RendezVous> rendezVous;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "nouveauNe")
     private List<Alerte> alertes;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "nouveauNe")
     private List<DocumentMedical> documents;
 }

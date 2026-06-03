@@ -35,14 +35,13 @@ public class Consultation {
     private String assistanceRespiratoire;
     private String resultatsBiologiques;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nouveau_ne_id")
     private NouveauNe nouveauNe;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "medecin_id")
     private Utilisateur medecin;
-
 
     @OneToOne(mappedBy = "consultation", cascade = CascadeType.ALL)
     private Prescription prescription;

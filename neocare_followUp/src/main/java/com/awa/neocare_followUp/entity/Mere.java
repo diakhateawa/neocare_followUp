@@ -1,5 +1,6 @@
 package com.awa.neocare_followUp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,6 +29,7 @@ public class Mere {
 
     private String email;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "mere")
     private List<NouveauNe> nouveauNes;
 }

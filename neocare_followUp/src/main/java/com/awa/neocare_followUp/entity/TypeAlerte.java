@@ -5,5 +5,6 @@ public enum TypeAlerte {
     TEMPERATURE_ELEVEE,
     RDV_MANQUE,
     CROISSANCE_INSUFFISANTE,
+    URGENTE,
     AUTRE
 }

@@ -6,6 +6,7 @@ import com.awa.neocare_followUp.entity.Mere;
 import com.awa.neocare_followUp.repository.MereRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,7 +22,6 @@ public class MereService {
     // CREATE
     public MereResponse create(MereRequest request) {
 
-        // Vérification doublon (optionnel mais pro)
         if (mereRepository.findByNumeroDossier(request.getNumeroDossier()).isPresent()) {
             throw new RuntimeException("Numéro dossier déjà existant");
         }
@@ -36,14 +36,13 @@ public class MereService {
                 .email(request.getEmail())
                 .build();
 
-        Mere saved = mereRepository.save(mere);
-
-        return mapToResponse(saved);
+        return mapToResponse(mereRepository.save(mere));
     }
 
     // GET ALL
+    @Transactional
     public List<MereResponse> getAll() {
-        return mereRepository.findAll()
+        return mereRepository.findAllWithNouveauNes()
                 .stream()
                 .map(this::mapToResponse)
                 .toList();
@@ -51,6 +50,7 @@ public class MereService {
 
     // GET BY ID
     public MereResponse getById(Long id) {
+
         Mere mere = mereRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Mère introuvable"));
 
@@ -71,9 +71,7 @@ public class MereService {
         mere.setNumeroDossier(request.getNumeroDossier());
         mere.setEmail(request.getEmail());
 
-        Mere updated = mereRepository.save(mere);
-
-        return mapToResponse(updated);
+        return mapToResponse(mereRepository.save(mere));
     }
 
     // DELETE
@@ -95,6 +93,7 @@ public class MereService {
         res.setAdresse(mere.getAdresse());
         res.setNumeroDossier(mere.getNumeroDossier());
         res.setEmail(mere.getEmail());
+
         return res;
     }
 }

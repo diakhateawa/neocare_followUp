@@ -1,5 +1,6 @@
 package com.awa.neocare_followUp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,10 +24,12 @@ public class RendezVous {
 
     private String motif;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "nouveau_ne_id")
     private NouveauNe nouveauNe;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "secretaire_id")
     private Utilisateur secretaire;

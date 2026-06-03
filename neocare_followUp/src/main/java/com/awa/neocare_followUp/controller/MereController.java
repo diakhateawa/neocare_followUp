@@ -18,31 +18,27 @@ public class MereController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN','INFIRMIER')")
     public MereResponse create(@RequestBody MereRequest request) {
         return mereService.create(request);
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN','MEDECIN','INFIRMIER')")
     public List<MereResponse> getAll() {
         return mereService.getAll();
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN','MEDECIN','INFIRMIER')")
     public MereResponse getById(@PathVariable Long id) {
         return mereService.getById(id);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN','INFIRMIER')")
-    public MereResponse update(@PathVariable Long id, @RequestBody MereRequest request) {
+    public MereResponse update(@PathVariable Long id,
+                               @RequestBody MereRequest request) {
         return mereService.update(id, request);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public void delete(@PathVariable Long id) {
         mereService.delete(id);
     }
