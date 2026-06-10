@@ -43,9 +43,10 @@ public class Consultation {
     @JoinColumn(name = "medecin_id")
     private Utilisateur medecin;
 
-    @OneToOne(mappedBy = "consultation", cascade = CascadeType.ALL)
-    private Prescription prescription;
+    @OneToMany(mappedBy = "consultation")
+    private List<Prescription> prescriptions;
 
     @OneToMany(mappedBy = "consultation", cascade = CascadeType.ALL)
     private List<DocumentMedical> documents;
 }
+

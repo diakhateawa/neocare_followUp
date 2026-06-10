@@ -14,18 +14,26 @@ import java.util.List;
 @Service
 public class CustomUserDetailsService  implements UserDetailsService {
 
-    @Autowired
-    private UtilisateurRepository repository;
+    private final UtilisateurRepository repository;
+
+    public CustomUserDetailsService(UtilisateurRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
         Utilisateur user = repository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        if (!user.isActif()) {
+            throw new UsernameNotFoundException("User disabled");
+        }
 
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
-                List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()))
+                List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
         );
     }
 }

@@ -17,10 +17,12 @@ public class Utilisateur {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String username;
     private String password;
     private String nom;
     private String prenom;
+    @Column(unique = true)
     private String email;
 
     @Enumerated(EnumType.STRING)

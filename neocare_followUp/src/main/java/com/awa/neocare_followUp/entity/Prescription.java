@@ -22,7 +22,7 @@ public class Prescription {
 
     private LocalDateTime datePrescription;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "consultation_id")
     private Consultation consultation;
 }

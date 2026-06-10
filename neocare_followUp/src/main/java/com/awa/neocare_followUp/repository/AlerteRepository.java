@@ -23,7 +23,4 @@ public interface AlerteRepository extends JpaRepository<Alerte, Long> {
         JOIN FETCH a.medecin
     """)
     List<Alerte> findAllWithFetch();
-
-    @Query("SELECT a FROM Alerte a JOIN FETCH a.nouveauNe JOIN FETCH a.medecin")
-    List<Alerte> findAllWithRelations();
 }

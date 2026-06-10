@@ -33,7 +33,7 @@ public class AuthService {
                 .nom(request.getNom())
                 .prenom(request.getPrenom())
                 .email(request.getEmail())
-                .role(Role.INFIRMIER)
+                .role(request.getRole()) // 👈 IMPORTANT
                 .actif(true)
                 .build();
 
@@ -41,11 +41,14 @@ public class AuthService {
 
         return "User created successfully";
     }
-
     public String login(LoginRequest request) {
 
         Utilisateur user = utilisateurRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!user.isActif()) {
+            throw new RuntimeException("User is disabled");
+        }
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid password");
@@ -59,4 +62,5 @@ public class AuthService {
 
         return jwtService.generateToken(userDetails);
     }
+
 }

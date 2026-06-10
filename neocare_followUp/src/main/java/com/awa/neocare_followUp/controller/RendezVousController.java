@@ -25,29 +25,24 @@ public class RendezVousController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('SECRETAIRE','ADMIN','MEDECIN','INFIRMIER')")
     public List<RendezVousResponse> getAll() {
         return service.getAll();
     }
 
-    @GetMapping("/bebe/{id}")
-    @PreAuthorize("hasAnyRole('SECRETAIRE','ADMIN','MEDECIN','INFIRMIER')")
-    public List<RendezVousResponse> getByBebe(@PathVariable Long id) {
-        return service.getByBebe(id);
-    }
-
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('SECRETAIRE','ADMIN','MEDECIN','INFIRMIER')")
     public RendezVousResponse getById(@PathVariable Long id) {
         return service.getById(id);
     }
 
+    @GetMapping("/bebe/{id}")
+    public List<RendezVousResponse> getByBebe(@PathVariable Long id) {
+        return service.getByBebe(id);
+    }
+
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('SECRETAIRE','ADMIN')")
-    public RendezVousResponse update(
-            @PathVariable Long id,
-            @RequestBody RendezVousRequest request) {
-
+    public RendezVousResponse update(@PathVariable Long id,
+                                     @RequestBody RendezVousRequest request) {
         return service.update(id, request);
     }
 

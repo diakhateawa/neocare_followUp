@@ -26,7 +26,7 @@ public class Alerte {
 
     private LocalDateTime dateCreation;
 
-    private boolean traite;
+    private boolean traite = false;
 
     @JsonIgnore
     @ManyToOne
@@ -37,4 +37,10 @@ public class Alerte {
     @ManyToOne
     @JoinColumn(name = "medecin_id")
     private Utilisateur medecin;
+
+    @PrePersist
+    public void init() {
+        this.dateCreation = LocalDateTime.now();
+        this.traite = false;
+    }
 }

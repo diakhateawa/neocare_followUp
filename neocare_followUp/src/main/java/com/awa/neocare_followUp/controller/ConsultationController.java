@@ -32,9 +32,28 @@ public class ConsultationController {
         return service.getAll();
     }
 
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('MEDECIN','ADMIN','INFIRMIER')")
+    public ConsultationResponse getById(@PathVariable Long id) {
+        return service.getById(id);
+    }
+
     @GetMapping("/bebe/{id}")
     @PreAuthorize("hasAnyRole('MEDECIN','ADMIN','INFIRMIER')")
     public List<ConsultationResponse> getByBebe(@PathVariable Long id) {
         return service.getByBebe(id);
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('MEDECIN','ADMIN')")
+    public ConsultationResponse update(@PathVariable Long id,
+                                       @RequestBody ConsultationRequest request) {
+        return service.update(id, request);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('MEDECIN','ADMIN')")
+    public void delete(@PathVariable Long id) {
+        service.delete(id);
     }
 }

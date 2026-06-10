@@ -42,7 +42,7 @@ public class ConsultationService {
             throw new RuntimeException("Ce n'est pas un médecin");
         }
 
-        Consultation consultation = Consultation.builder()
+        Consultation c = Consultation.builder()
                 .dateConsultation(LocalDateTime.now())
                 .temperature(request.getTemperature())
                 .poids(request.getPoids())
@@ -57,9 +57,9 @@ public class ConsultationService {
                 .medecin(medecin)
                 .build();
 
-        Consultation saved = consultationRepository.save(consultation);
+        return mapToResponse(consultationRepository.save(c));
 
-        return mapToResponse(saved);
+
     }
 
     // GET ALL
@@ -71,12 +71,54 @@ public class ConsultationService {
                 .toList();
     }
 
+    // GET BY ID
+    @Transactional(readOnly = true)
+    public ConsultationResponse getById(Long id) {
+
+        Consultation c = consultationRepository.findByIdWithFetch(id)
+                .orElseThrow(() -> new RuntimeException("Consultation introuvable"));
+
+        return mapToResponse(c);
+    }
+
     // GET BY BEBE
+    @Transactional(readOnly = true)
     public List<ConsultationResponse> getByBebe(Long id) {
+
         return consultationRepository.findByNouveauNeIdWithFetch(id)
                 .stream()
                 .map(this::mapToResponse)
                 .toList();
+    }
+
+    // UPDATE
+    @Transactional
+    public ConsultationResponse update(Long id, ConsultationRequest request) {
+
+        Consultation c = consultationRepository.findByIdWithFetch(id)
+                .orElseThrow(() -> new RuntimeException("Consultation introuvable"));
+
+        c.setTemperature(request.getTemperature());
+        c.setPoids(request.getPoids());
+        c.setTaille(request.getTaille());
+        c.setPc(request.getPc());
+        c.setDiagnostic(request.getDiagnostic());
+        c.setObservations(request.getObservations());
+        c.setModeAlimentation(request.getModeAlimentation());
+        c.setAssistanceRespiratoire(request.getAssistanceRespiratoire());
+        c.setResultatsBiologiques(request.getResultatsBiologiques());
+
+        return mapToResponse(consultationRepository.save(c));
+    }
+
+    // DELETE
+    @Transactional
+    public void delete(Long id) {
+
+        Consultation c = consultationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Consultation introuvable"));
+
+        consultationRepository.delete(c);
     }
 
     // MAPPING

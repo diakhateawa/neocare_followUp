@@ -1,5 +1,6 @@
 package com.awa.neocare_followUp.dto;
 
+import com.awa.neocare_followUp.entity.Role;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,4 +13,5 @@ public class RegisterRequest {
     private String nom;
     private String prenom;
     private String email;
+    private Role role;
 }

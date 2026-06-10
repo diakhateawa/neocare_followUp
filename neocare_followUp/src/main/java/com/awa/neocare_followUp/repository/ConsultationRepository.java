@@ -6,9 +6,19 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ConsultationRepository extends JpaRepository<Consultation, Long> {
+
     List<Consultation> findByNouveauNeId(Long id);
+
+    @Query("""
+        SELECT c FROM Consultation c
+        JOIN FETCH c.nouveauNe
+        JOIN FETCH c.medecin
+        WHERE c.id = :id
+    """)
+    Optional<Consultation> findByIdWithFetch(@Param("id") Long id);
 
     @Query("""
         SELECT c FROM Consultation c
