@@ -25,15 +25,16 @@ public class DocumentMedical {
 
     private LocalDateTime dateUpload;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nouveau_ne_id")
     private NouveauNe nouveauNe;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "consultation_id")
     private Consultation consultation;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uploader_id")
     private Utilisateur uploader;
 }
+
