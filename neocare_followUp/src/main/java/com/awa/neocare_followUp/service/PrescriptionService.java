@@ -45,7 +45,6 @@ public class PrescriptionService {
 
         Prescription saved = prescriptionRepository.save(prescription);
 
-        // 🔥 reload avec fetch pour éviter LazyInitializationException
         Prescription full = prescriptionRepository.findByIdWithFetch(saved.getId())
                 .orElseThrow(() -> new RuntimeException("Prescription introuvable après création"));
 
@@ -120,11 +119,13 @@ public class PrescriptionService {
     }
 
     // =========================
-    // MAPPER
+    // MAPPER SAFE (IMPORTANT FIX)
     // =========================
     private PrescriptionResponse mapToResponse(Prescription p) {
 
         PrescriptionResponse res = new PrescriptionResponse();
+
+        Consultation c = p.getConsultation();
 
         res.setId(p.getId());
         res.setMedicaments(p.getMedicaments());
@@ -132,12 +133,20 @@ public class PrescriptionService {
         res.setDuree(p.getDuree());
         res.setDatePrescription(p.getDatePrescription());
 
-        res.setConsultationId(p.getConsultation().getId());
-        res.setNouveauNeId(p.getConsultation().getNouveauNe().getId());
-        res.setNouveauNeNom(p.getConsultation().getNouveauNe().getNom());
+        if (c != null) {
 
-        res.setMedecinId(p.getConsultation().getMedecin().getId());
-        res.setMedecinNom(p.getConsultation().getMedecin().getNom());
+            res.setConsultationId(c.getId());
+
+            if (c.getNouveauNe() != null) {
+                res.setNouveauNeId(c.getNouveauNe().getId());
+                res.setNouveauNeNom(c.getNouveauNe().getNom());
+            }
+
+            if (c.getMedecin() != null) {
+                res.setMedecinId(c.getMedecin().getId());
+                res.setMedecinNom(c.getMedecin().getNom());
+            }
+        }
 
         return res;
     }
