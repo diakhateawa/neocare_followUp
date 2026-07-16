@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@Profile("!test")
 public class SecurityConfig {
 
     @Autowired
@@ -26,22 +27,30 @@ public class SecurityConfig {
 
         http
                 .csrf(csrf -> csrf.disable())
+
                 .authorizeHttpRequests(auth -> auth
+
                         .requestMatchers("/auth/**").permitAll()
+
                         .anyRequest().authenticated()
                 )
+
                 .sessionManagement(session ->
+
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
+
                 .addFilterBefore(jwtFilter,
                         UsernamePasswordAuthenticationFilter.class);
+
 
         return http.build();
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
+
         return new BCryptPasswordEncoder();
+
     }
 }

@@ -16,15 +16,19 @@ import java.util.List;
 
 @Service
 public class AuthService {
-    @Autowired
-    private UtilisateurRepository utilisateurRepository;
+    private final UtilisateurRepository utilisateurRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private JwtService jwtService;
+    public AuthService(UtilisateurRepository utilisateurRepository,
+                       PasswordEncoder passwordEncoder,
+                       JwtService jwtService) {
 
+        this.utilisateurRepository = utilisateurRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
+    }
     public String register(RegisterRequest request) {
 
         Utilisateur user = Utilisateur.builder()

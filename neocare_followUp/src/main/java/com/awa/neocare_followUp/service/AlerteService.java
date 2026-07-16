@@ -18,6 +18,8 @@ public class AlerteService {
     private final NouveauNeRepository nouveauNeRepository;
     private final UtilisateurRepository utilisateurRepository;
 
+
+
     public AlerteService(AlerteRepository alerteRepository,
                          NouveauNeRepository nouveauNeRepository,
                          UtilisateurRepository utilisateurRepository) {
