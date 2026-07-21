@@ -31,6 +31,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import com.awa.neocare_followUp.dto.AlerteRequest;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -39,6 +40,7 @@ import com.awa.neocare_followUp.dto.AlerteRequest;
         TestSecurityConfig.class,
         TestBeanConfig.class
 })
+@Transactional
 public class AlerteIntegrationTest {
 
     @Autowired

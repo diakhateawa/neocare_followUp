@@ -1,4 +1,6 @@
 package com.awa.neocare_followUp.integration;
+import com.awa.neocare_followUp.conf.TestBeanConfig;
+import com.awa.neocare_followUp.conf.TestSecurityConfig;
 import com.awa.neocare_followUp.dto.ConsultationRequest;
 import com.awa.neocare_followUp.entity.*;
 import com.awa.neocare_followUp.repository.MereRepository;
@@ -10,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -27,6 +30,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+
+
+@Import({
+        TestSecurityConfig.class,
+        TestBeanConfig.class
+})
 @Transactional
 public class ConsultationIntegrationTest {
 

@@ -30,6 +30,7 @@ import com.awa.neocare_followUp.repository.*;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -38,6 +39,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
         TestSecurityConfig.class,
         TestBeanConfig.class
 })
+@Transactional
 public class DocumentMedicalIntegrationTest {
 
     @Autowired
